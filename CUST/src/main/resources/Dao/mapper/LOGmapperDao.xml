@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.contapi.my.dao.log.LOGDao">
+   
+   	<select id="SendServiceLog" statementType="CALLABLE" parameterType="java.util.Map" >
+			 {
+            CALL USP_LOGDB_SERVICE_LOG_INSERT
+            
+	            (  
+	              #{LOG_TIME},
+	              #{SUID},
+	              #{SAID},
+	              #{FUNCTION},
+	              #{FUNCTION_DESC},
+	              #{LOG_DESC},
+	              #{RESULT},
+	              #{STB_ADDR},
+	              #{SERVERNAME},
+	              #{ELAPSEDTIME}              	              
+	              
+				)
+            }
+	</select>  
+</mapper>
