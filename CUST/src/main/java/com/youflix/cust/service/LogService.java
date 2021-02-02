@@ -20,7 +20,7 @@ public class LogService {
 	@Autowired
 	private LOGDao logDao;
 	
-	private static Logger logger_get_my_keyword = LoggerFactory.getLogger("Get_User_Data");
+	private static Logger logger_sign_up = LoggerFactory.getLogger("sign_up");
 
 	/**
 	 * @FileName : DB Service Log Write
@@ -32,17 +32,15 @@ public class LogService {
 	 */
 	@Async("executorSMLS")
 	public void WriteServiceLog(String function_desc, String api_startTime, Long startTime, Long endTime,
-			String apiName, int Result, StringBuffer log_MSG) 
+			String apiName, int Result, String log_MSG) 
 	{
 			final Long elapsed_time = endTime - startTime;
 
 			HashMap<String, String> paramServLog = new HashMap<String, String>();
 			paramServLog.put("LOG_TIME", api_startTime.toString());
-//			paramServLog.put("SUID", userCookie.getSUID());
-//			paramServLog.put("SAID", userCookie.getSAID());
 			paramServLog.put("FUNCTION", apiName);
 			paramServLog.put("FUNCTION_DESC", function_desc);
-			paramServLog.put("LOG_DESC", log_MSG.toString());
+			paramServLog.put("LOG_DESC", log_MSG);
 			paramServLog.put("RESULT", Integer.toString(Result));
 			paramServLog.put("ELAPSEDTIME", elapsed_time.toString());
 			try {
@@ -62,22 +60,20 @@ public class LogService {
 	 * @Project : ContentAPI MY
 	 * @Date : 2020.11.20
 	 * @Author : 조 준 희
-	 * @Description : ServiceLogManager.WriteServiceLog(request, '2020-12-11 00:00:00', "delete_buy_list", "SMLS 로그", result, log_MSG, userAgent, userCookie);
+	 * @Description : ServiceLogManager.WriteServiceLog(request, '2020-12-11 00:00:00', "sign_up", "API 로그", result, log_MSG, userAgent, userCookie);
 	 * @History :
 	 */
 	@Async("executorSMLS")
 	public void WriteServiceLog(String function_desc, String api_startTime, Long startTime, Long endTime, String apiName, String funcName, int Result,
-			StringBuffer log_MSG) 
+			String log_MSG) 
 	{
 		final Long elapsed_time = endTime - startTime;
 
 		HashMap<String, String> paramServLog = new HashMap<String, String>();
 		paramServLog.put("LOG_TIME", api_startTime.toString());
-//		paramServLog.put("SUID", userCookie.getSUID());
-//		paramServLog.put("SAID", userCookie.getSAID());
 		paramServLog.put("FUNCTION", apiName);
 		paramServLog.put("FUNCTION_DESC", function_desc);
-		paramServLog.put("LOG_DESC", log_MSG.toString());
+		paramServLog.put("LOG_DESC", log_MSG);
 		paramServLog.put("RESULT", Integer.toString(Result));
 		paramServLog.put("ELAPSEDTIME", elapsed_time.toString());
 		try {
@@ -92,14 +88,14 @@ public class LogService {
 //		producer.send(result);
 	}
 
-	public static void WriteFileLog(String apiName, StringBuffer log_MSG) {
+	public static void WriteFileLog(String apiName, String log_MSG) {
 
 		if (log_MSG.toString().isEmpty())
 			return;
 
 		switch (apiName) {
-		case "get_user_data":
-			logger_get_my_keyword.info(log_MSG.toString());
+		case "sign_up":
+			logger_sign_up.info(log_MSG);
 			break;
 
 		}

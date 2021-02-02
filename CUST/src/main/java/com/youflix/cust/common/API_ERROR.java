@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 
 import com.youflix.cust.model.ResultMapType2;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youflix.cust.util.StringUtil;
 
@@ -21,6 +22,9 @@ public final class API_ERROR{
 		{
 			put("T:200", "OK"); 
 			put("M:200", "성공");
+			
+			put("T:201", "DUPLICATE VALUES"); 
+			put("M:201", "중복된 값입니다.");	
 			
 			put("T:400", "Bad Request"); 
 			put("M:400", "문법상 또는 파라미터 오류가 있어서 서버가 요청사항을 처리하지 못함");
@@ -36,6 +40,7 @@ public final class API_ERROR{
 	
 
 	/**
+	 * @throws Exception 
 	 * @FileName : 에러응답 Json 반환
 	 * @Project : CUST
 	 * @Date : 2021.01.29
@@ -48,59 +53,22 @@ public final class API_ERROR{
 		
 		ObjectMapper mapper = new ObjectMapper();
 	      String result = null;
-	      try {
-	         result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response_error(errorCode, errorMessage));
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      }
-	      
-		return result;
-	}
-	
-	
-	/**
-	 * @FileName : FailSSO ( 쿠키 체크 Fail )
-	 * @Project : ContentAPI MY
-	 * @Date : 2020.11.20
-	 * @Author : 조 준 희
-	 * @Description : 쿠키 체크 실패 Result 생성
-	 * @History :
-	 */
-	
-	public static String FailSSO(int errorCode, HttpServletRequest request, String errorMessage) {
-		
-		HashMap<String, Object> resultMap = response_error(errorCode, "");
-		HashMap<String, Object> metaMap = new HashMap<String, Object>();
-		
-		if( !ERROR_CODES.containsKey( ("T:" + errorCode ).trim() ) ||
-				!ERROR_CODES.containsKey( ("M:" + errorCode ).trim() ) )
-				errorCode = 401;
-		{
-			metaMap.put("code         ".trim(), errorCode                        							);
-			metaMap.put("error_type   ".trim(), ERROR_CODES.get( ("T:" + errorCode ).trim() )               );
-			metaMap.put("error_message".trim(), ERROR_CODES.get( ("M:" + errorCode ).trim() )				);
-			metaMap.put("cookie", StringUtils.isEmpty(StringUtil.NVL(request.getHeader("cookie"), "")) ? "" : StringUtil.NVL(request.getHeader("cookie"), ""));
-			metaMap.put("Massage", errorMessage);
-		}
-		
-		resultMap.put("meta", metaMap);
 
-		
-		ObjectMapper mapper = new ObjectMapper();
-	      String result = null;
-	      try {
-	         result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(resultMap);
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      }
-	      
+	         try {
+				result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response_error(errorCode, errorMessage));
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		return result;
 	}
+	
 	
 	
 	/**
 	 * @FileName : response_error
-	 * @Project : ContentAPI MY
+	 * @Project : CUST
 	 * @Date : 2020.11.20
 	 * @Author : 조 준 희
 	 * @Description : 에러코드에 맞는 에러메시지와  + 에러 내용으로 해쉬맵 생성 
@@ -118,7 +86,7 @@ public final class API_ERROR{
 		return response_error(
 			  errorCode
 			, ERROR_CODES.get( ("T:" + errorCode ).trim() ) 
-			, ERROR_CODES.get( ("M:" + errorCode ).trim() )+ ((errorMessage.length() > 0) ? " " : "")+errorMessage
+			, ERROR_CODES.get( ("M:" + errorCode ).trim() )+ " " +errorMessage
 		);
 		
 	}
@@ -126,7 +94,7 @@ public final class API_ERROR{
 	
 	/**
 	 * @FileName : 정상적인 최종 응답 JSON생성
-	 * @Project : ContentAPI MY
+	 * @Project : CUST
 	 * @Date : 2020.11.20
 	 * @Author : 조 준 희
 	 * @Description : 코드, 결과해쉬맵, Count출력 여부, List형식 출력여부, 토탈 카운트, Paging여부, 페이지 
@@ -178,7 +146,7 @@ public final class API_ERROR{
 	
 	/**
 	 * @FileName : response_error
-	 * @Project : ContentAPI MY
+	 * @Project : CUST
 	 * @Date : 2020.11.20
 	 * @Author : 조 준 희
 	 * @Description : code = 코드값, errorType = 에러타입, errorMessage = 추가적인 에러메시지 

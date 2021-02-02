@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.youflix.cust.dao.cust.CUSTDao;
+import com.youflix.cust.model.M_CHECK_CUST_EMAIL_DUPLICATE;
+import com.youflix.cust.model.M_SIGN_IN;
+import com.youflix.cust.model.M_SIGN_UP;
 import com.youflix.cust.model.ResultMapType2;
 
 
@@ -19,7 +22,7 @@ public class CUSTService extends BaseService{
 		// Value ,  isEncodeUTF8
 		private static final long serialVersionUID = 9037841291415888227L;
 		{
-			put("GetUserData", 
+			put("Sing_Up", 
 					new String[][] {
 						  { "UUID"            	, ""  } 
 					    , { "PASSWORD"         	, ""  }
@@ -32,21 +35,61 @@ public class CUSTService extends BaseService{
 	private CUSTDao custDao;
 
 	/**
-	 * @FileName : 유저 정보 조회 (GetUserData)
+	 * @FileName : 사용자 회원가입 (Sign_Up)
 	 * @Project : CUST
 	 * @Date : 2021.01.29
 	 * @Author : 조 준 희
-	 * @Description : 유저 정보 조회
+	 * @Description : 사용자 회원가입
 	 * @History :
 	 */
-	public HashMap<String, Object> GetUserData(HashMap<String, Object> paramMap) throws Exception {
-		
-    	List<ResultMapType2> resolution_code ;
+	public HashMap<String, Object> Sign_Up(M_SIGN_UP mSignUp) throws Exception {	
+    	
 		//
 		try {
-			resolution_code = custDao.GetUserData(paramMap);
+			 custDao.Sign_Up(mSignUp);
+
+			return ResponseDatatoController(Integer.parseInt(mSignUp.getRES()), "");
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+	
+	
+	/**
+	 * @FileName : 사용자 로그인 (Sign_Up)
+	 * @Project : CUST
+	 * @Date : 2021.01.29
+	 * @Author : 조 준 희
+	 * @Description : 사용자 회원가입
+	 * @History :
+	 */
+	public HashMap<String, Object> Sign_In(M_SIGN_IN mSignIn) throws Exception {	
+		//
+		try {
+			custDao.Sign_In(mSignIn);
 			
-			return ResponseDatatoController(200, resolution_code);
+			return ResponseDatatoController(Integer.parseInt(mSignIn.getRES()), "");
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+	
+	/**
+	 * @FileName : Email 중복 체크 (Check_Cust_Email_Duplicate)
+	 * @Project : CUST
+	 * @Date : 2021.01.29
+	 * @Author : 조 준 희
+	 * @Description : 사용자 회원가입
+	 * @History :
+	 */
+	public HashMap<String, Object> Check_Cust_Email_Duplicate(M_CHECK_CUST_EMAIL_DUPLICATE mCheckCustEmailDuplicate) throws Exception {	
+		//
+		try {
+			custDao.Check_Cust_Email_Duplicate(mCheckCustEmailDuplicate);
+			
+			return ResponseDatatoController(Integer.parseInt(mCheckCustEmailDuplicate.getRES()), "");
 
 		} catch (Exception ex) {
 			throw ex;

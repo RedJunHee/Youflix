@@ -32,23 +32,23 @@ import com.zaxxer.hikari.HikariDataSource;
 public class CUSTDBConfiguration {
    
    //properties DB Config 
-   @Bean(name = "custDataSource")
-   @ConfigurationProperties(prefix = "spring.cust.datasource")
-   public DataSource custDataSource() {
-      return DataSourceBuilder.create().type(HikariDataSource.class).build();
-   }
-   
-   @Bean(name = "custSqlSessionFactory")
-   public SqlSessionFactory custsqlSessionFactory(@Qualifier("custDataSource") DataSource custDataSource, ApplicationContext applicationContext) throws Exception {
-      SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-      sqlSessionFactoryBean.setDataSource(custDataSource);
-      sqlSessionFactoryBean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis-config.xml"));
-      sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/dao/mapper/CUSTmapperDao.xml"));
-      return sqlSessionFactoryBean.getObject();
-   }
+	   @Bean(name = "custDataSource")
+	   @ConfigurationProperties(prefix = "spring.cust.datasource")
+	   public DataSource custDataSource() {
+	      return DataSourceBuilder.create().type(HikariDataSource.class).build();
+	   }
+	   
+	   @Bean(name = "custSqlSessionFactory")
+	   public SqlSessionFactory custsqlSessionFactory(@Qualifier("custDataSource") DataSource custDataSource, ApplicationContext applicationContext) throws Exception {
+	      SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+	      sqlSessionFactoryBean.setDataSource(custDataSource);
+	      sqlSessionFactoryBean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis-config.xml"));
+	      sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/dao/mapper/CUSTmapperDao.xml"));
+	      return sqlSessionFactoryBean.getObject();
+	   }
 
-   @Bean(name = "custsqlSessionTemplate")
-   public SqlSessionTemplate custsqlSessionTemplate(SqlSessionFactory custsqlSessionFactory) {
-      return new SqlSessionTemplate(custsqlSessionFactory);
-   }
+	   @Bean(name = "custsqlSessionTemplate")
+	   public SqlSessionTemplate custsqlSessionTemplate(@Qualifier("custSqlSessionFactory") SqlSessionFactory custsqlSessionFactory) {
+	      return new SqlSessionTemplate(custsqlSessionFactory);
+	   }
 }

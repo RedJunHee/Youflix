@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.contapi.my.dao.log.LOGDao">
+<mapper namespace="com.youflix.cust.dao.log.LOGDao">
    
    	<select id="SendServiceLog" statementType="CALLABLE" parameterType="java.util.Map" >
 			 {
@@ -10,8 +10,6 @@
             
 	            (  
 	              #{LOG_TIME},
-	              #{SUID},
-	              #{SAID},
 	              #{FUNCTION},
 	              #{FUNCTION_DESC},
 	              #{LOG_DESC},

@@ -10,7 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
  
 
@@ -18,7 +17,14 @@ import java.util.HashMap;
 public class BaseService {
 	    
 
-	//결과 코드와 가공 JSON 데이터를 묶어 Controller에 반환, meta,data 형식의 출력 가공은 controller에서 일괄 수행 
+	/**
+	 * @FileName : ResponseDatatoController
+	 * @Project : CUST
+	 * @Date : 2021.02.01
+	 * @Author : 조 준 희
+	 * @Description : 서비스가 결과 코드와 결과 내용을 맵핑하여 컨트롤러에 전달하는 함수. 
+	 * @History :
+	 */
 	public HashMap<String, Object> ResponseDatatoController(int result_code, Object resultDesc) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> ReturnHashMap = new HashMap<String, Object>();
@@ -31,14 +37,12 @@ public class BaseService {
 
 	
 	/**
-
-	 * @throws UnsupportedEncodingException 
-	 * @FileName    : restructure_data
-	    * @Project     : ContentAPI MY
-	    * @Date        : 2020.11.20
-	    * @Author      : 조 준 희
-	    * @Description : Output데이터를 가져와 응답 필드에 맞게 응답구조 제작
-	    * @History     :
+	* @FileName    : restructure_data
+	* @Project     : CUST
+	* @Date        : 2021.02.01
+	* @Author      : 조 준 희
+	* @Description : Output데이터를 가져와 응답 필드에 맞게 응답구조 제작
+	* @History     :
 	    */
 	public List<ResultMapType2> restructure_data(List<ResultMapType2> oriData, String[][] responseFields) throws UnsupportedEncodingException  {
 		

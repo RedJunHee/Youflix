@@ -4,13 +4,38 @@
 
 <mapper namespace="com.youflix.cust.dao.cust.CUSTDao">
 
-   	<select id="GetUserData" statementType="CALLABLE"
-		parameterType="java.util.Map"
-		resultType="com.youflix.cust.model.ResultMapType2">
+   	<select id="Sign_Up" statementType="CALLABLE"
+		parameterType="java.util.Map">
 		{
-			CALL USP_CUSTDB_GET_USER_DATA
+			CALL USP_CUST_SIGN_UP
 			(
-				#{SUID}
+				#{CUSTEMAIL},
+				#{PASSWORD},
+				#{RES, mode=OUT, jdbcType=CHAR}
+			)
+		}
+	</select>
+	
+	
+   	<select id="Sign_In" statementType="CALLABLE"
+		parameterType="com.youflix.cust.model.M_SIGN_UP">
+		{
+			CALL USP_CUST_SIGN_IN
+			(
+				#{CUSTEMAIL},
+				#{PASSWORD},
+				#{RES, mode=OUT, jdbcType=CHAR}
+			)
+		}
+	</select>
+	
+	<select id="Check_Cust_Email_Duplicate" statementType="CALLABLE"
+		parameterType="java.util.Map">
+		{
+			CALL USP_CHECK_CUST_EMAIL_DUPLICATE
+			(
+				#{CUSTEMAIL},
+				#{RES, mode=OUT, jdbcType=CHAR}
 			)
 		}
 	</select>
