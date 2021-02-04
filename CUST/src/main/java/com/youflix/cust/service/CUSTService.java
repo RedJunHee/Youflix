@@ -49,7 +49,6 @@ public class CUSTService extends BaseService{
 			 custDao.Sign_Up(mSignUp);
 
 			return ResponseDatatoController(Integer.parseInt(mSignUp.getRES()), "");
-
 		} catch (Exception ex) {
 			throw ex;
 		}

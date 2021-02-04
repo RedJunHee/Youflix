@@ -50,7 +50,7 @@ public class LOGDBConfiguration {
    }
 
    @Bean(name = "logsqlSessionTemplate")
-   public SqlSessionTemplate logsqlSessionTemplate(@Qualifier("logSqlSessionFactory") SqlSessionFactory logsqlSessionFactory) {
+   public SqlSessionTemplate logsqlSessionTemplate(SqlSessionFactory logsqlSessionFactory) {
       return new SqlSessionTemplate(logsqlSessionFactory);
    }
 }

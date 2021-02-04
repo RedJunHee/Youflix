@@ -12,7 +12,9 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -28,17 +30,20 @@ import com.zaxxer.hikari.HikariDataSource;
  */
 
 @Configuration
-@MapperScan(basePackages = "com.youflix.cust.dao.cust", sqlSessionFactoryRef = "custSqlSessionFactory")//(value="com.contapi.my.dao.CUSTDao", sqlSessionFactoryRef = "custSqlSessionFactory")
+@MapperScan(basePackages = "com.youflix.cust.dao.cust", sqlSessionFactoryRef = "custSqlSessionFactory")
+@EnableTransactionManagement
 public class CUSTDBConfiguration {
    
    //properties DB Config 
 	   @Bean(name = "custDataSource")
+	   @Primary
 	   @ConfigurationProperties(prefix = "spring.cust.datasource")
 	   public DataSource custDataSource() {
 	      return DataSourceBuilder.create().type(HikariDataSource.class).build();
 	   }
 	   
 	   @Bean(name = "custSqlSessionFactory")
+	   @Primary
 	   public SqlSessionFactory custsqlSessionFactory(@Qualifier("custDataSource") DataSource custDataSource, ApplicationContext applicationContext) throws Exception {
 	      SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 	      sqlSessionFactoryBean.setDataSource(custDataSource);
@@ -48,7 +53,8 @@ public class CUSTDBConfiguration {
 	   }
 
 	   @Bean(name = "custsqlSessionTemplate")
-	   public SqlSessionTemplate custsqlSessionTemplate(@Qualifier("custSqlSessionFactory") SqlSessionFactory custsqlSessionFactory) {
+	   @Primary
+	   public SqlSessionTemplate custsqlSessionTemplate(SqlSessionFactory custsqlSessionFactory) {
 	      return new SqlSessionTemplate(custsqlSessionFactory);
 	   }
 }

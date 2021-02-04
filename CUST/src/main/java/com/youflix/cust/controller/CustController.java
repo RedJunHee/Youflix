@@ -40,7 +40,7 @@ public class CustController extends ControllerBase {
 	 * @History :
 	 */
 	@SuppressWarnings({ "unchecked" })
-	@RequestMapping(value = { "/sign_up" })
+	@RequestMapping(value = { "/api/sign_up" })
 	public void sign_up(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String function_desc = "사용자 회원 가입";
 		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
@@ -57,8 +57,7 @@ public class CustController extends ControllerBase {
 				resultMap = custService.Sign_Up(mSignUp);
 
 				if (resultMap.get("ResultCode").equals("200")) {
-					result = API_ERROR.response_success_toJson(200,
-							(List<ResultMapType2>) resultMap.get("ResultDesc"), false, false, null, false, null);
+					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
 					ResultCode = DBLogType.OK;
 				} else if (resultMap.get("ResultCode").equals("400")) {
 					result = API_ERROR.response_error_toJson(400, "");
@@ -99,7 +98,7 @@ public class CustController extends ControllerBase {
 	 * @History :
 	 */
 	@SuppressWarnings({ "unchecked" })
-	@RequestMapping(value = { "/sign_in" })
+	@RequestMapping(value = { "/api/sign_in" })
 	public void sign_in(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String function_desc = "사용자 로그인";
 		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
@@ -116,8 +115,7 @@ public class CustController extends ControllerBase {
 				resultMap = custService.Sign_In(mSignIn);
 
 				if (resultMap.get("ResultCode").equals("200")) {
-					result = API_ERROR.response_success_toJson(200,
-							(List<ResultMapType2>) resultMap.get("ResultDesc"), false, false, null, false, null);
+					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
 					ResultCode = DBLogType.OK;
 				} else if (resultMap.get("ResultCode").equals("400")) {
 					result = API_ERROR.response_error_toJson(400, "");
@@ -157,7 +155,7 @@ public class CustController extends ControllerBase {
 	 * @History :
 	 */
 	@SuppressWarnings({ "unchecked" })
-	@RequestMapping(value = { "/check_cust_email_duplicate" })
+	@RequestMapping(value = { "/api/check_cust_email_duplicate" })
 	public void check_cust_email_duplicate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String function_desc = "사용자 Email 중복 체크";
 		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
@@ -174,8 +172,7 @@ public class CustController extends ControllerBase {
 				resultMap = custService.Check_Cust_Email_Duplicate(mCheckCustEmailDuplicate);
 
 				if (resultMap.get("ResultCode").equals("200")) {
-					result = API_ERROR.response_success_toJson(200,
-							(List<ResultMapType2>) resultMap.get("ResultDesc"), false, false, null, false, null);
+					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
 					ResultCode = DBLogType.OK;
 				} else if (resultMap.get("ResultCode").equals("201")) {
 					result = API_ERROR.response_error_toJson(201, "");

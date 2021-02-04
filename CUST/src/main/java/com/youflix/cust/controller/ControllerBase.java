@@ -5,31 +5,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import javax.inject.Inject;
+//import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang.StringUtils;
-
 import com.youflix.cust.model.BaseModel;
-import com.youflix.cust.model.ResultMapType2;
-import com.youflix.cust.service.LogService;
+//import com.youflix.cust.model.ResultMapType2;
+//import com.youflix.cust.service.LogService;
 import com.youflix.cust.util.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.stereotype.Controller;
+//import org.springframework.stereotype.Controller;
 
-@EnableCaching
-@Controller
 public class ControllerBase {
 
-   @Autowired
-   private LogService logService;
+  // @Inject
+  // private LogService logService;
 
     private final HashMap<String, String> allowSvcLog = new HashMap<String, String>() {
 		
@@ -132,7 +123,7 @@ public class ControllerBase {
     */
    protected void displayResponseData(HttpServletRequest request, HttpServletResponse response, BaseModel inputModel, DBLogType Result, String result, String logResult) throws IOException {
 	   StringBuffer log_MSG = new StringBuffer();   
-	   final Long      endTime  = System.currentTimeMillis();
+	  // final Long      endTime  = System.currentTimeMillis();
 	      
 	      if(result == null || result.trim().length() <= 0)
 	         result = "";
@@ -153,9 +144,9 @@ public class ControllerBase {
 	      
 	      final String apiUrl      = request.getRequestURI();
 	      final String apiName     = apiUrl.substring( apiUrl.lastIndexOf("/")+1 ).toLowerCase();
-	      final String  function_desc = (String) request.getAttribute("FUNCTION_DESC ".trim());
-		   final String  api_startTime = (String) request.getAttribute("APISTART ".trim());
-		   final Long     startTime =    (Long)   request.getAttribute("START    ".trim());
+	      //final String  function_desc = (String) request.getAttribute("FUNCTION_DESC ".trim());
+		  // final String  api_startTime = (String) request.getAttribute("APISTART ".trim());
+		  // final Long     startTime =    (Long)   request.getAttribute("START    ".trim());
 	      if( allowSvcLog.containsKey(apiName) ) 
 	      {
 	         if( "Y".equals(allowSvcLog.get(apiName)) || "R".equals( allowSvcLog.get(apiName)) ) 
