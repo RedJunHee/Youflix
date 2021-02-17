@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.youflix.autoingest.dao.log.LOGDao">
+
+   	<select id="SendServiceLog" statementType="CALLABLE" parameterType="java.util.Map" >
+		 {
+           CALL USP_LOG_EXTERNAL_INSERT_LOG
+            (  
+              #{API_NAME},
+              #{API_DESCRIPTION},
+              #{LOG_DESCRIPTION},
+              #{RESULT},
+              #{ELAPSED_TIME}
+			)
+           }
+	</select>  
+	
+</mapper>

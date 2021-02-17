@@ -1,0 +1,16 @@
+package com.youflix.autoingest.dao.cms;
+
+import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+
+import com.youflix.autoingest.model.M_INGEST_VIDEO_REGSTER;
+import com.youflix.autoingest.model.M_INGEST_VIDEO_UPDATED_AT_UPDATE;
+import com.youflix.autoingest.model.ResultMapType2;
+
+
+@Mapper
+public interface CMSDao {
+	public List<ResultMapType2> GetYoutubers ();
+	public void UpdateToVideoUpdatAt(M_INGEST_VIDEO_UPDATED_AT_UPDATE dao);
+	public void IngestVideoRegster(M_INGEST_VIDEO_REGSTER dao);
+}
