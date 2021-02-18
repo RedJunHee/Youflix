@@ -135,7 +135,6 @@ public class CustController extends ControllerBase {
 		super.displayResponseData(request, response, mSignUp, ResultCode, result, logResult.toString());
 	}
 	
-	
 	/**
 	 * @FileName : 사용자 회원 가입 (sign_up)
 	 * @Project : CUST
@@ -197,7 +196,6 @@ public class CustController extends ControllerBase {
 		// -- Response --//
 		super.displayResponseData(request, response, mSignIn, ResultCode, result, logResult.toString());
 	}
-	
 	
 	/**
 	 * @FileName : 사용자 Email 중복 체크 (check_cust_email_duplicate)
@@ -330,4 +328,140 @@ public class CustController extends ControllerBase {
 		// -- Response --//
 		super.displayResponseData(request, response, mPlayVideo, ResultCode, result, logResult.toString());
 	}
+
+	/**
+	 * @FileName : 로그 아웃 ( log_out )
+	 * @Project : CUST
+	 * @Date : 2021.02.01
+	 * @Author : 조 준 희
+	 * @Description : 로그아웃
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/log_out" })
+	public void log_out(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "로그 아웃";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		M_LOG_OUT mLogOut = null;
+		UserCookie cookie = null;
+		
+		try {
+			cookie = CheckCookie(request, response);
+			
+			mLogOut  = gson.fromJson( getPostRequestBody(request), M_LOG_OUT.class); 
+			String temp = null;
+			if( ( temp = mLogOut.paramCheck()) != null )
+			{
+				result = API_ERROR.response_error_toJson(400, temp);
+			}
+			else
+			{
+				resultMap = custService.Log_Out(mLogOut);
+
+				if (resultMap.get("ResultCode").equals("200")) {
+					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
+					ResultCode = DBLogType.OK;
+				} else if(resultMap.get("ResultCode").equals("401")) {
+					result = API_ERROR.response_error_toJson(401, "존재 하지않는 SESSION_ID");
+				}
+
+				// Log
+				logResult.append(result);
+			}
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, mLogOut, ResultCode, result, logResult.toString());
+	}
+	
+	
+	/**
+	 * @FileName : 시청 종료 ( play_end)
+	 * @Project : CUST
+	 * @Date : 2021.02.01
+	 * @Author : 조 준 희
+	 * @Description : 시청 종료
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/play_end" })
+	public void play_end(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "재생 종료";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		M_PLAY_END mPlayEnd = null;
+		UserCookie cookie = null;
+		
+		try {
+			cookie = CheckCookie(request, response);
+			
+			mPlayEnd  = gson.fromJson( getPostRequestBody(request), M_PLAY_END.class); 
+			String temp = null;
+			if( ( temp = mPlayEnd.paramCheck()) != null )
+			{
+				result = API_ERROR.response_error_toJson(400, temp);
+			}
+			else
+			{
+				resultMap = custService.Play_End(mPlayEnd);
+
+				if (resultMap.get("ResultCode").equals("200")) {
+					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
+					ResultCode = DBLogType.OK;
+				}
+
+				// Log
+				logResult.append(result);
+			}
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, mPlayEnd, ResultCode, result, logResult.toString());
+	}
+	
 }

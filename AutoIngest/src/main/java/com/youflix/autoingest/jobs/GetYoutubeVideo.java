@@ -150,16 +150,16 @@ public class GetYoutubeVideo {
 		    JsonArray playListItems = GetPlayListVideo(uploadID).get("items").getAsJsonArray();
 		    
 		    String startTime = DateTime.getCurrentDateTimeToString();
-		    StringBuffer sb = new StringBuffer();
-		    sb.append(String.format("YOUTUBER_ID : %s", youtuberID));
-		    sb.append(System.getProperty("line.separator"));
-		    sb.append("{");
-		    sb.append(System.getProperty("line.separator"));
+		    StringBuffer sb ;
 
 		    for(int itemsCount=0 ; itemsCount < playListItems.size(); itemsCount++)
 		    {	    
 		    	Thread.sleep(1000);
-
+		    	sb = new StringBuffer();
+			    sb.append(String.format("YOUTUBER_ID : %s", youtuberID));
+			    sb.append(System.getProperty("line.separator"));
+			    sb.append("{");
+			    sb.append(System.getProperty("line.separator"));
 			    Long sTime = System.currentTimeMillis();
 
     			String videoId = playListItems.get(itemsCount).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString() ;

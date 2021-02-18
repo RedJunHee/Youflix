@@ -6,7 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.youflix.cust.dao.cust.CUSTDao;
+import com.youflix.cust.dao.log.LOGDao;
 import com.youflix.cust.model.M_CHECK_CUST_EMAIL_DUPLICATE;
+import com.youflix.cust.model.M_LOG_OUT;
+import com.youflix.cust.model.M_PLAY_END;
+import com.youflix.cust.model.M_PLAY_VIDEO;
 import com.youflix.cust.model.M_SESSION_CHECK;
 import com.youflix.cust.model.M_SIGN_IN;
 import com.youflix.cust.model.M_SIGN_UP;
@@ -132,6 +136,47 @@ public class CUSTService extends BaseService{
 			throw ex;
 		}
 	}
+	/**
+	 * @FileName : 재생종료 (Play_End)
+	 * @Project : CUST
+	 * @Date : 2021.02.07
+	 * @Author : 조 준 희
+	 * @Description : 컨텐츠 재생
+	 * @History :
+	 */
+	public HashMap<String, Object> Play_End(M_PLAY_END mPlayEnd) throws Exception {	
+
+		
+		try {
+			custDao.Play_End(mPlayEnd);
+
+			return ResponseDatatoController(200, "");
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
 	
+	/**
+	 * @FileName : 로그아웃 (Log_Out)
+	 * @Project : CUST
+	 * @Date : 2021.02.07
+	 * @Author : 조 준 희
+	 * @Description : 로그아웃
+	 * @History :
+	 */
+	public HashMap<String, Object> Log_Out(M_LOG_OUT mLogOut) throws Exception {	
+
+		
+		try {
+			custDao.Log_Out(mLogOut);
+
+			if(mLogOut.getRES().equals("401"))
+				return ResponseDatatoController(401, "");
+			
+			return ResponseDatatoController(200, "");
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
 }
 

@@ -6,7 +6,7 @@
    
    	<select id="SendServiceLog" statementType="CALLABLE" parameterType="java.util.Map" >
 			 {
-            CALL USP_INSERT_LOG
+            CALL USP_LOG_INSERT_LOG
 	            (  
 	              #{API_NAME},
 	              #{API_DESCRIPTION},

@@ -41,8 +41,8 @@ public class ControllerBase {
 			put("play_video".trim(), "Y");
 			put("check_cust_email_duplicate".trim(), "Y");
 			put("play_video".trim(), "Y");
-			//put("check_cust_email_duplicate".trim(), "Y");
-			//put("check_cust_email_duplicate".trim(), "Y");
+			put("play_end".trim(), "Y");
+			put("log_out".trim(), "Y");
 		}
 		
 	};
@@ -206,7 +206,7 @@ public class ControllerBase {
                log_MSG.append("\n<OUTPUT>\n");
                log_MSG.append(logResult);
                log_MSG.append("\n</OUTPUT>");               
-               logService.WriteServiceLog(function_desc, api_startTime, startTime, endTime, apiName, Result, log_MSG.toString());                  
+               logService.WriteServiceLog(function_desc, startTime, endTime, apiName, Result, log_MSG.toString());                  
             } 
             catch (Exception e) 
             {               

@@ -39,4 +39,26 @@
 		}
 	</select>
 	
+		<select id="Play_End" statementType="CALLABLE"
+		parameterType="com.youflix.cust.model.M_PLAY_END">
+		{
+			CALL USP_CUST_STOP_WATCHING
+			(
+				#{SESSION_ID},
+				#{VIDEO_ID},
+				#{JUMP_POINT}
+			)
+		}
+	</select>
+	
+			<select id="Log_Out" statementType="CALLABLE"
+		parameterType="com.youflix.cust.model.M_LOG_OUT">
+		{
+			CALL USP_CUST_LOG_OUT
+			(
+				#{SESSION_ID},
+				#{RES, mode=OUT, jdbcType=CHAR}
+			)
+		}
+	</select>
 </mapper>
