@@ -124,7 +124,7 @@ public class GetYoutubeVideo {
 
     // 애플리케이션 시작 후 60초 후에 첫 실행, 그 후 매 60초마다 주기적으로 실행한다.
 	
-    @Scheduled(initialDelay = 1000, fixedDelay = 60000)
+    @Scheduled(initialDelay = 1000, fixedDelay = 3600000)
     public void Job() {
 	List<ResultMapType2> youtubers = null;
 	try {
@@ -138,6 +138,8 @@ public class GetYoutubeVideo {
 		return ;
 	}
 		
+	System.out.println("유튜버 "+ youtubers.size());
+	
 	for(int i = 0 ; i < youtubers.size() ; i++)
 	{
 		try {
@@ -153,10 +155,11 @@ public class GetYoutubeVideo {
 		    sb.append(System.getProperty("line.separator"));
 		    sb.append("{");
 		    sb.append(System.getProperty("line.separator"));
-		    
+
 		    for(int itemsCount=0 ; itemsCount < playListItems.size(); itemsCount++)
 		    {	    
 		    	Thread.sleep(1000);
+
 			    Long sTime = System.currentTimeMillis();
 
     			String videoId = playListItems.get(itemsCount).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString() ;
@@ -179,33 +182,35 @@ public class GetYoutubeVideo {
 
 	            if(videoData.get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("tags") != null)
 	            {
-	            JsonArray ja = videoData.get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("tags").getAsJsonArray();
-	            
-	            for(int a = 0 ; a < ja.size();a++) {
-	            	if(a != 0) 
-	            		tags.append(",");
-            		tags.append(ja.get(a).getAsString());
-        		}
+		            JsonArray ja = videoData.get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("tags").getAsJsonArray();
+		            
+		            for(int a = 0 ; a < ja.size();a++) {
+		            	if(a != 0) 
+		            		tags.append(",");
+	            		tags.append(ja.get(a).getAsString());
+	        		}
 	            }
+
 	             cmsService.IngestVideoRegster(new M_INGEST_VIDEO_REGSTER(videoId, title, categoryId, youtuberID, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN,uploadID));
-	             System.out.println('a');
+
 	             Long eTime = System.currentTimeMillis();
 	             sb.append(String.format("videoid : %s\n, title : %s\n, categoryID : %s\n,description : %s\n,videoURL : %s\n,publishAt : %s\n, imageURL : %s\n,isKids : %s\n, tags : %s\n"
 	            		 , videoId, title, categoryId, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN,uploadID));
 	             sb.append("}");
-	             
+
 	             logService.WriteServiceLog("유튜버 비디오 입수", sTime, eTime, "GetYoutubeVideo", 1, sb.toString());
 		    }
-		    
+
 		    cmsService.UpdateToVideoUpdatAt(new M_INGEST_VIDEO_UPDATED_AT_UPDATE(youtuberID,startTime));
-		    System.out.println('b');
+
 		    
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				logService.WriteServiceLog("GetYoutubeVideo", System.currentTimeMillis(), System.currentTimeMillis(), "유튜버 비디오 입수", 0, e.toString());
+			}  
 		}
-		catch(Exception e)
-		{
-			logService.WriteServiceLog("GetYoutubeVideo", System.currentTimeMillis(), System.currentTimeMillis(), "유튜버 비디오 입수", 0, e.toString());
-		}  
-	}
 	}
 
     private JsonObject GetPlayListVideo(String playListId) throws Exception
