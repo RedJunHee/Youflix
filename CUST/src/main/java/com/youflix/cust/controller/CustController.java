@@ -367,7 +367,7 @@ public class CustController extends ControllerBase {
 					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
 					ResultCode = DBLogType.OK;
 				} else if(resultMap.get("ResultCode").equals("401")) {
-					result = API_ERROR.response_error_toJson(401, "존재 하지않는 SESSION_ID");
+					result = API_ERROR.response_error_toJson(401, "존재하지 않는 SESSION_ID");
 				}
 
 				// Log
