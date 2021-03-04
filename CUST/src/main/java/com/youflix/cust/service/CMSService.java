@@ -26,8 +26,8 @@ public class CMSService extends BaseService{
 	private CMSDao cmsDao;
 
 	/**
-	 * @FileName : 컨텐츠 재생 (Session_Check)
-	 * @Project : CUST
+	 * @FileName : 컨텐츠 재생 (Play_Video)
+	 * @Project : CMS
 	 * @Date : 2021.02.07
 	 * @Author : 조 준 희
 	 * @Description : 컨텐츠 재생
@@ -49,6 +49,25 @@ public class CMSService extends BaseService{
 			throw ex;
 		}
 	}
-	
+	/**
+	 * @FileName : 로그아웃 (Log_Out)
+	 * @Project : CMS
+	 * @Date : 2021.02.07
+	 * @Author : 조 준 희
+	 * @Description : 로그아웃
+	 * @History :
+	 */
+	public HashMap<String, Object> Top_10_list() throws Exception {	
+
+		List<ResultMapType2> result ;
+		try {
+			result = cmsDao.Top_10_list();
+
+			return ResponseDatatoController(200, result);
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
 }
 

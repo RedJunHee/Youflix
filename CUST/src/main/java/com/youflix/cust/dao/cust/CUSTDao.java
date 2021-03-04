@@ -21,5 +21,5 @@ public interface CUSTDao {
 	public void Check_Cust_Email_Duplicate(M_CHECK_CUST_EMAIL_DUPLICATE mCheckCustEmailDuplicate) throws Exception;
 	public void Session_Check(M_SESSION_CHECK mSessionCheck) throws Exception;
 	public void Play_End(M_PLAY_END mPlayEnd) throws Exception;
-	public void Log_Out(M_LOG_OUT mPlayEnd) throws Exception;
+	public void Log_Out(M_LOG_OUT mPlayEnd) throws Exception;     
 }

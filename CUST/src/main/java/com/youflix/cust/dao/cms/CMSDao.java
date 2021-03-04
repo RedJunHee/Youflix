@@ -11,4 +11,5 @@ import com.youflix.cust.model.ResultMapType2;
 @Mapper
 public interface CMSDao {
 	public List<ResultMapType2> Play_Video(M_PLAY_VIDEO mPlayVideo) throws Exception;
+	public List<ResultMapType2> Top_10_list() throws Exception;  
 }

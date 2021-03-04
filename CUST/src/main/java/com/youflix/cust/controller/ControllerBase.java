@@ -201,7 +201,8 @@ public class ControllerBase {
             {
                log_MSG.setLength(0);
                log_MSG.append("<INPUT>\n");
-               log_MSG.append(inputModel.toString());
+               if(inputModel != null)
+            	   log_MSG.append(inputModel.toString());
                log_MSG.append("\n</INPUT>");
                log_MSG.append("\n<OUTPUT>\n");
                log_MSG.append(logResult);

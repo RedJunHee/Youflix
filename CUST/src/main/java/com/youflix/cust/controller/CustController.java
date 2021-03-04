@@ -37,6 +37,7 @@ public class CustController extends ControllerBase {
 	private CUSTService custService;
 	@Inject
 	private CMSService cmsService;
+	
 	/**
 	 * @throws Exception 
 	 * @FileName : 테스트 (sign_up)
@@ -69,7 +70,6 @@ public class CustController extends ControllerBase {
 
 		return "test : " + ip ; 
 	}
-	
 	
 	/**
 	 * @FileName : 사용자 회원 가입 (sign_up)
@@ -397,7 +397,6 @@ public class CustController extends ControllerBase {
 		super.displayResponseData(request, response, mLogOut, ResultCode, result, logResult.toString());
 	}
 	
-	
 	/**
 	 * @FileName : 시청 종료 ( play_end)
 	 * @Project : CUST
@@ -463,5 +462,65 @@ public class CustController extends ControllerBase {
 		// -- Response --//
 		super.displayResponseData(request, response, mPlayEnd, ResultCode, result, logResult.toString());
 	}
+	
+	/**
+	 * @FileName : TOP 10 비디오 리스트 ( top_10_list )
+	 * @Project : CUST
+	 * @Date : 2021.03.04
+	 * @Author : 조 준 희
+	 * @Description : TOP 10 비디오 리스트
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/top_10_list" })
+	public void top_10_list(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "TOP 10 비디오 리스트";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		UserCookie cookie = null;
+		
+		try {
+			cookie = CheckCookie(request, response);
+			
+
+			resultMap = cmsService.Top_10_list();
+	
+			if (resultMap.get("ResultCode").equals("200")) {
+				List<ResultMapType2> resultDesc = (List<ResultMapType2>)resultMap.get("ResultDesc");
+				result = API_ERROR.response_success_toJson(200, resultDesc, true, true, String.valueOf(resultDesc.size()), false, null);
+				ResultCode = DBLogType.OK;
+			}
+	
+			// Log
+			logResult.append(result);
+			
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	}
+	
 	
 }

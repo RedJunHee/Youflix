@@ -14,5 +14,10 @@
 			)
 		}
 	</select>
-	
+	<select id="Top_10_list" statementType="CALLABLE"
+		resultType="com.youflix.cust.model.ResultMapType2">
+		{
+			CALL USP_CMS_TOP_TEN()
+		}
+	</select>
 </mapper>

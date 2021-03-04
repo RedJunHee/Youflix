@@ -51,7 +51,7 @@
 		}
 	</select>
 	
-			<select id="Log_Out" statementType="CALLABLE"
+	<select id="Log_Out" statementType="CALLABLE"
 		parameterType="com.youflix.cust.model.M_LOG_OUT">
 		{
 			CALL USP_CUST_LOG_OUT
@@ -61,4 +61,5 @@
 			)
 		}
 	</select>
+	
 </mapper>
