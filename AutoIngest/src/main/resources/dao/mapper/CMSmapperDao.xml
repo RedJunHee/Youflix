@@ -39,6 +39,7 @@
 				,#{TAGS}
 				,#{KIDS_YN}
 				,#{MAIN_PLAY_LIST}
+				,#{VIDEO_LENGTH}
 			)
 		}
 	</select>

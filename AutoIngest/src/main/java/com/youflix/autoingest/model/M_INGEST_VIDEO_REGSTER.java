@@ -24,11 +24,12 @@ public class M_INGEST_VIDEO_REGSTER  {
 	private String KIDS_YN;
 	private String PLAY_YN;
 	private String MAIN_PLAY_LIST;
+	private Integer VIDEO_LENGTH;
 	
 	
 	public M_INGEST_VIDEO_REGSTER(String vIDEO_ID, String tITLE, String vIDEO_TYPE, String yOUTUBER_ID,
 			String dESCRIPTION, String vIDEO_URL, String pUBLISHED_AT, String pICTURE_URL, String tAGS, String kIDS_YN,
-			String pLAY_YN, String mAIN_PLAY_LIST) {
+			String pLAY_YN, String mAIN_PLAY_LIST, Integer vIDEO_LENGTH) {
 		super();
 		VIDEO_ID = vIDEO_ID;
 		TITLE = tITLE;
@@ -42,6 +43,7 @@ public class M_INGEST_VIDEO_REGSTER  {
 		KIDS_YN = kIDS_YN;
 		PLAY_YN = pLAY_YN;
 		MAIN_PLAY_LIST = mAIN_PLAY_LIST;
+		VIDEO_LENGTH = vIDEO_LENGTH;
 	}
 	public String getMAIN_PLAY_LIST() {
 		return MAIN_PLAY_LIST;
@@ -114,6 +116,12 @@ public class M_INGEST_VIDEO_REGSTER  {
 	}
 	public void setPLAY_YN(String pLAY_YN) {
 		PLAY_YN = pLAY_YN;
+	}
+	public Integer getVIDEO_LENGTH() {
+		return VIDEO_LENGTH;
+	}
+	public void setVIDEO_LENGTH(Integer vIDEO_LENGTH) {
+		VIDEO_LENGTH = vIDEO_LENGTH;
 	}
 
 

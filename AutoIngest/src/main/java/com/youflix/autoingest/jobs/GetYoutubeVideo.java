@@ -36,84 +36,7 @@ public class GetYoutubeVideo {
     // 매일 5시 30분 0초에 실행한다.
 //    @Scheduled(cron = "0 0 0 * * *")
 //    public void Job() {
-//    	List<ResultMapType2> youtubers = null;
-//    	try {
-//    		
-//    		youtubers = cmsService.GetYoububers();
-//    		
-//    	}
-//    	catch(Exception e)
-//    	{    		
-//    		logService.WriteServiceLog("GetYoububers", System.currentTimeMillis(), System.currentTimeMillis(), "유튜버 조회", 2, e.toString());
-//    		return ;
-//    	}
-//    		
-//		for(int i = 0 ; i < youtubers.size() ; i++)
-//		{
-//			try {
-//				Thread.sleep(5000);
-//				String youtuberID = youtubers.get(i).get("youtuber_id").toString();
-//    			String uploadID = youtubers.get(i).get("upload_id").toString();
-//    			String videoUpdatedAt = youtubers.get(i).get("video_updated_at").toString();
-//    		    JsonArray playListItems = GetPlayListVideo(uploadID).get("items").getAsJsonArray();
-//    		    
-//    		    String startTime = DateTime.getCurrentDateTimeToString();
-//    		    Long sTime = System.currentTimeMillis();
-//    		    StringBuffer sb = new StringBuffer();
-//    		    sb.append(String.format("YOUTUBER_ID : %s", youtuberID));
-//    		    sb.append(System.getProperty("line.separator"));
-//    		    sb.append("{");
-//    		    sb.append(System.getProperty("line.separator"));
-//    		    
-//    		    for(int itemsCount=0 ; itemsCount < playListItems.size(); itemsCount++)
-//    		    {	    			
-//	    			String videoId = playListItems.get(itemsCount).getAsJsonObject().get("snippet").getAsJsonObject().get("resourceId").getAsJsonObject().get("videoId").getAsString() ;
-//		            String title = playListItems.get(itemsCount).getAsJsonObject().get("snippet").getAsJsonObject().get("title").getAsString()  ;
-//		            String description = playListItems.get(itemsCount).getAsJsonObject().get("snippet").getAsJsonObject().get("description").getAsString() ;
-//		            String imageUrl = playListItems.get(itemsCount).getAsJsonObject().get("snippet").getAsJsonObject().get("thumbnails").getAsJsonObject().get("medium").getAsJsonObject().get("url").getAsString() ;
-//		            String publishAt = playListItems.get(itemsCount).getAsJsonObject().get("snippet").getAsJsonObject().get("publishedAt").getAsString() ;
-//		            
-//		            if(!DateTime.compareDateToDate(publishAt.substring(0, publishAt.length()-1).replace('T', ' ') , videoUpdatedAt))
-//		            	continue;
-//		            JsonArray videoData;
-//		            System.out.println(videoId);
-//		            videoData = GetVideoDate(videoId).get("items").getAsJsonArray();
-//		            
-//		            String categoryId = videoData.get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("categoryId").getAsString() ;
-//		            String playYN = (videoData.get(0).getAsJsonObject().get("status").getAsJsonObject().get("embeddable").getAsBoolean())? "Y":"N" ;
-//		            String isKids = (videoData.get(0).getAsJsonObject().get("status").getAsJsonObject().get("madeForKids").getAsBoolean())? "Y":"N"  ;
-//		            StringBuffer tags = new StringBuffer(); 
-//		            
-//
-//		            if(videoData.get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("tags") != null)
-//		            {
-//		            JsonArray ja = videoData.get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("tags").getAsJsonArray();
-//		            
-//		            for(int a = 0 ; a < ja.size();a++) {
-//		            	if(a != 0) 
-//		            		tags.append(",");
-//	            		tags.append(ja.get(a).getAsString());
-//            		}
-//		            }
-//		             cmsService.IngestVideoRegster(new M_INGEST_VIDEO_REGSTER(videoId, title, categoryId, youtuberID, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN,uploadID));
-//		             
-//		             Long eTime = System.currentTimeMillis();
-//		             sb.append(String.format("videoid : %s\n, title : %s\n, categoryID : %s\n,description : %s\n,videoURL : %s\n,publishAt : %s\n, imageURL : %s\n,isKids : %s\n, tags : %s\n"
-//		            		 , videoId, title, categoryId, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN,uploadID));
-//		             sb.append("}");
-//		             
-//		             logService.WriteServiceLog("GetYoutubeVideo", sTime, eTime, "유튜버 비디오 입수", 1, sb.toString());
-//    		    }
-//    		    
-//    		    cmsService.UpdateToVideoUpdatAt(new M_INGEST_VIDEO_UPDATED_AT_UPDATE(youtuberID,startTime));
-//    		    
-//    		    
-//			}
-//			catch(Exception e)
-//			{
-//				logService.WriteServiceLog("GetYoutubeVideo", System.currentTimeMillis(), System.currentTimeMillis(), "유튜버 비디오 입수", 2, e.toString());
-//			}  
-//		}
+
 //    }
 
     // 매월 1일 0시 0분 0초에 실행한다.
@@ -138,8 +61,7 @@ public class GetYoutubeVideo {
 			logService.WriteServiceLog("GetYoububers", System.currentTimeMillis(), System.currentTimeMillis(), "유튜버 조회", 2, e.toString());
 			return ;
 		}
-			
-		System.out.println("유튜버 "+ youtubers.size());
+		
 		
 		for(int i = 0 ; i < youtubers.size() ; i++)
 		{
@@ -173,7 +95,7 @@ public class GetYoutubeVideo {
 		            	continue;
 		            JsonArray videoData;
 		            System.out.println(videoId);
-		            videoData = GetVideoDate(videoId).get("items").getAsJsonArray();
+		            videoData = GetVideoData(videoId).get("items").getAsJsonArray();
 		            
 		            String categoryId = videoData.get(0).getAsJsonObject().get("snippet").getAsJsonObject().get("categoryId").getAsString() ;
 		            String playYN = (videoData.get(0).getAsJsonObject().get("status").getAsJsonObject().get("embeddable").getAsBoolean())? "Y":"N" ;
@@ -192,11 +114,14 @@ public class GetYoutubeVideo {
 		        		}
 		            }
 	
-		             cmsService.IngestVideoRegster(new M_INGEST_VIDEO_REGSTER(videoId, title, categoryId, youtuberID, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN,uploadID));
+		            String videoLength = videoData.get(0).getAsJsonObject().get("contentDetails").getAsJsonObject().get("duration").getAsString();
+		            int videoLen = PTTimeParseToInt(videoLength);
+		            
+		             cmsService.IngestVideoRegster(new M_INGEST_VIDEO_REGSTER(videoId, title, categoryId, youtuberID, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN,uploadID,videoLen));
 	
 		             Long eTime = System.currentTimeMillis();
-		             sb.append(String.format("videoid : %s\n, title : %s\n, categoryID : %s\n,description : %s\n,videoURL : %s\n,publishAt : %s\n, imageURL : %s\n,isKids : %s\n, tags : %s\n"
-		            		 , videoId, title, categoryId, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN,uploadID));
+		             sb.append(String.format("videoid : %s\n, title : %s\n, categoryID : %s\n,description : %s\n,videoURL : %s\n,publishAt : %s\n, imageURL : %s\n,isKids : %s\n, tags : %s, duration : %s\n"
+		            		 , videoId, title, categoryId, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN, uploadID, videoLength));
 		             sb.append("}");
 	
 		             logService.WriteServiceLog("유튜버 비디오 입수", sTime, eTime, "GetYoutubeVideo", 1, sb.toString());
@@ -213,7 +138,36 @@ public class GetYoutubeVideo {
 				}  
 		}
 	}
+    private Integer PTTimeParseToInt(String PT) 
+    {
+        int temp;
+        //PT문자열 삭제
+        PT = PT.substring(2);
+        String[] del =  {"H","M","S"};
+        int[] time =  {0,0,0};
 
+        for (int i = 0 ; i < 3 ; i++)
+        {
+          temp = PT.indexOf(del[i]);
+          
+          if(temp < 0)
+            continue;
+          
+          for(int j = 0 ; j < temp  ; j++)
+          {
+            time[i] += (PT.charAt(j) - 48) * ( Math.pow( 10 , (temp -j-1) ) );
+            
+          }
+      	
+          if(temp >= 0)
+          {
+          	PT = PT.substring(PT.indexOf(del[i])+1);
+          }
+        }
+
+        return time[0]*3600 + time[1]*60 + time[2];
+    }
+    
     private JsonObject GetPlayListVideo(String playListId) throws Exception
     {
 		String playListRequestURL = 
@@ -245,7 +199,7 @@ public class GetYoutubeVideo {
 
     }
     
-    private JsonObject GetVideoDate(String videoId) throws Exception
+    private JsonObject GetVideoData(String videoId) throws Exception
     {
 
 		String RequestURL = 
