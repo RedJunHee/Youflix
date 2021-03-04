@@ -136,15 +136,15 @@ public class CustController extends ControllerBase {
 	}
 	
 	/**
-	 * @FileName : 사용자 회원 가입 (sign_up)
+	 * @FileName : 사용자 로그인 (log_in)
 	 * @Project : CUST
 	 * @Date : 2021.02.01
 	 * @Author : 조 준 희
-	 * @Description : 사용자 회원 가입
+	 * @Description : 사용자 로그인
 	 * @History :
 	 */
 	@SuppressWarnings({ "unchecked" })
-	@RequestMapping(value = { "/api/sign_in" })
+	@RequestMapping(value = { "/api/log_in" })
 	public void sign_in(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String function_desc = "사용자 로그인";
 		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
@@ -153,10 +153,10 @@ public class CustController extends ControllerBase {
 		StringBuffer logResult = new StringBuffer();
 		DBLogType ResultCode = DBLogType.FAIL;
 		Gson gson = new Gson();
-		M_SIGN_IN mSignIn =null;
+		M_LOG_IN mSignIn =null;
 		
 		try {
-			mSignIn  = gson.fromJson( getPostRequestBody(request), M_SIGN_IN.class); 
+			mSignIn  = gson.fromJson( getPostRequestBody(request), M_LOG_IN.class); 
 			String temp = null;
 			if( (temp =  mSignIn.paramCheck()) != null )
 			{
@@ -164,13 +164,13 @@ public class CustController extends ControllerBase {
 			}
 			else
 			{
-				resultMap = custService.Sign_In(mSignIn);
+				resultMap = custService.Log_In(mSignIn);
 
 				if (resultMap.get("ResultCode").equals("200")) {
-					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
+					result = API_ERROR.response_success_toJson(200, (List<ResultMapType2>)resultMap.get("ResultDesc"), false, false, null, false, null);
 					ResultCode = DBLogType.OK;
-				} else if (resultMap.get("ResultCode").equals("400")) {
-					result = API_ERROR.response_error_toJson(400, "");
+				} else if (resultMap.get("ResultCode").equals("401")) {
+					result = API_ERROR.response_error_toJson(401, "");
 				} 
 
 				// Log

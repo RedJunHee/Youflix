@@ -10,11 +10,10 @@ package com.youflix.cust.model;
  * @History :
  */
 
-public class M_SIGN_IN implements BaseModel{
+public class M_LOG_IN implements BaseModel{
 
 	private String CUST_EMAIL;
 	private String PASSWORD;
-	private String RES;
 	
 
 	public String getCUST_EMAIL() {
@@ -29,19 +28,12 @@ public class M_SIGN_IN implements BaseModel{
 	public void setPASSWORD(String pASSWORD) {
 		PASSWORD = pASSWORD;
 	}
-	public String getRES() {
-		return RES;
-	}
-	public void setRES(String rES) {
-		RES = rES;
-	}
 	
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append( String.format("CUST_EMAIL : %s \n", CUST_EMAIL));
 		sb.append( String.format("PASSWORD : %s \n", PASSWORD));
-		sb.append( String.format("RES : %s \n", RES));
 		return sb.toString();
 	}
 

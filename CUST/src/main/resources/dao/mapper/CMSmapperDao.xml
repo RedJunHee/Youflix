@@ -8,7 +8,7 @@
 		parameterType="java.util.Map"
 		resultType="com.youflix.cust.model.ResultMapType2">
 		{
-			CALL USP_GET_VIDEO_URL
+			CALL USP_CMS_GET_VIDEO_URL
 			(
 				#{VIDEO_ID}
 			)

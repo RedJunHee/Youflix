@@ -11,7 +11,7 @@ import com.youflix.cust.dao.cust.CUSTDao;
 import com.youflix.cust.model.M_CHECK_CUST_EMAIL_DUPLICATE;
 import com.youflix.cust.model.M_PLAY_VIDEO;
 import com.youflix.cust.model.M_SESSION_CHECK;
-import com.youflix.cust.model.M_SIGN_IN;
+import com.youflix.cust.model.M_LOG_IN;
 import com.youflix.cust.model.M_SIGN_UP;
 import com.youflix.cust.model.ResultMapType2;
 

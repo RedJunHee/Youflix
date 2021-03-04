@@ -16,14 +16,14 @@
 		}
 	</select>
 	
-   	<select id="Sign_In" statementType="CALLABLE"
-		parameterType="com.youflix.cust.model.M_SIGN_UP">
+   	<select id="Log_In" statementType="CALLABLE"
+		parameterType="com.youflix.cust.model.M_SIGN_UP"
+		resultType="com.youflix.cust.model.ResultMapType2">
 		{
-			CALL USP_CUST_SIGN_IN
+			CALL USP_CUST_LOG_IN
 			(
 				#{CUST_EMAIL},
-				#{PASSWORD},
-				#{RES, mode=OUT, jdbcType=CHAR}
+				#{PASSWORD}
 			)
 		}
 	</select>

@@ -12,7 +12,7 @@ import com.youflix.cust.model.M_LOG_OUT;
 import com.youflix.cust.model.M_PLAY_END;
 import com.youflix.cust.model.M_PLAY_VIDEO;
 import com.youflix.cust.model.M_SESSION_CHECK;
-import com.youflix.cust.model.M_SIGN_IN;
+import com.youflix.cust.model.M_LOG_IN;
 import com.youflix.cust.model.M_SIGN_UP;
 import com.youflix.cust.model.ResultMapType2;
 
@@ -78,19 +78,23 @@ public class CUSTService extends BaseService{
 	}
 	
 	/**
-	 * @FileName : 사용자 로그인 (Sign_Up)
+	 * @FileName : 사용자 로그인 (Log_Up)
 	 * @Project : CUST
 	 * @Date : 2021.01.29
 	 * @Author : 조 준 희
 	 * @Description : 사용자 회원가입
 	 * @History :
 	 */
-	public HashMap<String, Object> Sign_In(M_SIGN_IN mSignIn) throws Exception {	
+	public HashMap<String, Object> Log_In(M_LOG_IN mLogIn) throws Exception {	
 		//
+		List<ResultMapType2> result ;
 		try {
-			custDao.Sign_In(mSignIn);
+			result = custDao.Log_In(mLogIn);
 			
-			return ResponseDatatoController(Integer.parseInt(mSignIn.getRES()), "");
+			if(result.get(0).getString("session_id").equals("") )
+				return ResponseDatatoController(401, "");
+			
+			return ResponseDatatoController(200, result);
 
 		} catch (Exception ex) {
 			throw ex;
