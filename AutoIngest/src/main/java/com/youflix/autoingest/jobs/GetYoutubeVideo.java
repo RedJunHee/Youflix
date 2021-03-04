@@ -120,8 +120,8 @@ public class GetYoutubeVideo {
 		             cmsService.IngestVideoRegster(new M_INGEST_VIDEO_REGSTER(videoId, title, categoryId, youtuberID, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN,uploadID,videoLen));
 	
 		             Long eTime = System.currentTimeMillis();
-		             sb.append(String.format("videoid : %s\n, title : %s\n, categoryID : %s\n,description : %s\n,videoURL : %s\n,publishAt : %s\n, imageURL : %s\n,isKids : %s\n, tags : %s, duration : %s\n"
-		            		 , videoId, title, categoryId, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl,tags.toString(), isKids, playYN, uploadID, videoLength));
+		             sb.append(String.format("videoid : %s\n, title : %s\n, categoryID : %s\n,description : %s\n,videoURL : %s\n,publishAt : %s\n, imageURL : %s\n,isKids : %s\n, tags : %s, playYN : %s, uploadID : %s, duration : %s\n"
+		            		 , videoId, title, categoryId, description, "https://www.youtube.com/embed/"+videoId, publishAt, imageUrl, isKids,tags.toString(), playYN, uploadID, videoLength));
 		             sb.append("}");
 	
 		             logService.WriteServiceLog("유튜버 비디오 입수", sTime, eTime, "GetYoutubeVideo", 1, sb.toString());
