@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.youflix.getvideoplaylist.dao.cms.CMSDao">
+	
+	<select id="UpdateToVideoUpdatAt" statementType="CALLABLE"
+		parameterType="com.youflix.getvideoplaylist.model.M_INGEST_VIDEO_UPDATED_AT_UPDATE" >
+		{
+			CALL USP_CMS_INGEST_VIDEO_UPDATED_AT_UPDATE
+			(
+				#{YOUTUBER_ID}
+				,#{VIDEO_UPDATED_AT}
+			)
+		}
+	</select>
+
+</mapper>
