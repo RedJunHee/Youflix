@@ -27,7 +27,7 @@ import com.youflix.getvideoplaylist.util.DateTime;
 
 
 @Component
-public class GetYoutubeVideo {
+public class GetVideoPlayList {
 	@Autowired
 	CMSService cmsService;
 	@Autowired

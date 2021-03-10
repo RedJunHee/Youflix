@@ -283,9 +283,11 @@ public class CustController extends ControllerBase {
 		
 		try {
 			cookie = CheckCookie(request, response);
-			
-			
+		
 			mPlayVideo  = gson.fromJson( getPostRequestBody(request), M_PLAY_VIDEO.class); 
+			mPlayVideo.setSESSION_ID(cookie.getSESSION_ID());
+			mPlayVideo.setCUST_EMAIL(cookie.getCUST_EMAIL());
+			
 			String temp = null;
 			if( ( temp = mPlayVideo.paramCheck()) != null )
 			{
@@ -354,6 +356,8 @@ public class CustController extends ControllerBase {
 			cookie = CheckCookie(request, response);
 			
 			mLogOut  = gson.fromJson( getPostRequestBody(request), M_LOG_OUT.class); 
+			mLogOut.setSESSION_ID(cookie.getSESSION_ID());
+			
 			String temp = null;
 			if( ( temp = mLogOut.paramCheck()) != null )
 			{
@@ -422,6 +426,8 @@ public class CustController extends ControllerBase {
 			cookie = CheckCookie(request, response);
 			
 			mPlayEnd  = gson.fromJson( getPostRequestBody(request), M_PLAY_END.class); 
+			mPlayEnd.setSESSION_ID(cookie.getSESSION_ID());
+			
 			String temp = null;
 			if( ( temp = mPlayEnd.paramCheck()) != null )
 			{
@@ -485,7 +491,6 @@ public class CustController extends ControllerBase {
 		
 		try {
 			cookie = CheckCookie(request, response);
-			
 
 			resultMap = cmsService.Top_10_list();
 	

@@ -15,13 +15,6 @@ public class M_PLAY_END implements BaseModel {
 	private String SESSION_ID;
 	private String VIDEO_ID;
 	private Integer JUMP_POINT;
-	
-	public M_PLAY_END(String sESSION_ID, String vIDEO_ID, Integer jUMP_POINT) {
-		super();
-		SESSION_ID = sESSION_ID;
-		VIDEO_ID = vIDEO_ID;
-		JUMP_POINT = jUMP_POINT;
-	}
 
 	
 	public String getSESSION_ID() {
