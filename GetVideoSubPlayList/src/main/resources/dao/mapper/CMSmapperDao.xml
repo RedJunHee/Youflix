@@ -4,15 +4,32 @@
 
 <mapper namespace="com.youflix.getvideoplaylist.dao.cms.CMSDao">
 	
-	<select id="UpdateToVideoUpdatAt" statementType="CALLABLE"
-		parameterType="com.youflix.getvideoplaylist.model.M_INGEST_VIDEO_UPDATED_AT_UPDATE" >
+	<select id="UpdateToPlayListUpdatAt" statementType="CALLABLE"
+		parameterType="com.youflix.getvideoplaylist.model.M_INGEST_PLAY_LIST_UPDATED_AT_UPDATE" >
 		{
-			CALL USP_CMS_INGEST_VIDEO_UPDATED_AT_UPDATE
+			CALL USP_CMS_INGEST_PLAY_LIST_UPDATED_AT_UPDATE
 			(
 				#{YOUTUBER_ID}
-				,#{VIDEO_UPDATED_AT}
+				,#{PLAY_LIST_UPDATED_AT}
 			)
 		}
 	</select>
-
+	
+		<select id="GetYoutubers" statementType="CALLABLE"
+		parameterType="java.util.Map" resultType="com.youflix.getvideoplaylist.model.ResultMapType2">
+		{
+			CALL USP_CMS_INGEST_GET_YOUTUBERS ()
+		}
+	</select>
+		<select id="IngestPlayListRegster" statementType="CALLABLE"
+		parameterType="com.youflix.getvideoplaylist.model.M_INGEST_PLAY_LIST_REGSTER" >
+		{
+			CALL USP_CMS_INGEST_PLAY_LIST_REGSTER_INSERT 
+			(
+				 #{YOUTUBER_ID}
+				,#{TITLE}
+				,#{PLAY_LIST_ID}
+			)
+		}
+	</select>
 </mapper>
