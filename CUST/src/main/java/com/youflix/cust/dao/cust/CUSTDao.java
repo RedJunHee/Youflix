@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.youflix.cust.model.M_CHECK_CUST_EMAIL_DUPLICATE;
 import com.youflix.cust.model.M_LOG_OUT;
+import com.youflix.cust.model.M_PASSWORD_CHANGE;
 import com.youflix.cust.model.M_PLAY_END;
 import com.youflix.cust.model.M_PLAY_VIDEO;
 import com.youflix.cust.model.M_SESSION_CHECK;
@@ -21,5 +22,6 @@ public interface CUSTDao {
 	public void Check_Cust_Email_Duplicate(M_CHECK_CUST_EMAIL_DUPLICATE mCheckCustEmailDuplicate) throws Exception;
 	public void Session_Check(M_SESSION_CHECK mSessionCheck) throws Exception;
 	public void Play_End(M_PLAY_END mPlayEnd) throws Exception;
-	public void Log_Out(M_LOG_OUT mPlayEnd) throws Exception;     
+	public void Log_Out(M_LOG_OUT mPlayEnd) throws Exception;  
+	public void PasswordChange(M_PASSWORD_CHANGE model) throws Exception; 
 }

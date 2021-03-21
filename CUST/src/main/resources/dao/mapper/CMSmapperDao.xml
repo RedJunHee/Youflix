@@ -22,4 +22,19 @@
 			CALL USP_CMS_TOP_TEN()
 		}
 	</select>
+		<select id="GetYoutuberPlayList" statementType="CALLABLE"
+		resultType="com.youflix.cust.model.ResultMapType2">
+		{
+			CALL USP_CMS_INGEST_GET_YOUTUBER_PLAY_LIST()
+		}
+	</select>
+			<select id="IngestPlayListVideoRegster" statementType="CALLABLE"
+		parameterType="com.youflix.cust.model.M_INGEST_SYNC_SUB_PLAY_LIST">
+		{
+			CALL USP_CMS_INGEST_PLAY_LIST_VIDEO_INSERT(
+				#{PLAY_LIST_ID}
+				,#{VIDEO_ID}
+			)
+		}
+	</select>
 </mapper>

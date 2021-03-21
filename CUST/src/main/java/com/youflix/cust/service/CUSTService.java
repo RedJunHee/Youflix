@@ -9,6 +9,7 @@ import com.youflix.cust.dao.cust.CUSTDao;
 import com.youflix.cust.dao.log.LOGDao;
 import com.youflix.cust.model.M_CHECK_CUST_EMAIL_DUPLICATE;
 import com.youflix.cust.model.M_LOG_OUT;
+import com.youflix.cust.model.M_PASSWORD_CHANGE;
 import com.youflix.cust.model.M_PLAY_END;
 import com.youflix.cust.model.M_PLAY_VIDEO;
 import com.youflix.cust.model.M_SESSION_CHECK;
@@ -182,7 +183,26 @@ public class CUSTService extends BaseService{
 			throw ex;
 		}
 	}
-	
+	/**
+	 * @FileName : 사용자 비밀번호 변경 ( PasswordChange)
+	 * @Project : CUST
+	 * @Date : 2021.03.20
+	 * @Author : 조 준 희
+	 * @Description : 사용자 비밀번호 변경
+	 * @History :
+	 */
+	// Controller - Service( 서비스 ) - Dao( 서비스 - 프로시저 호출 ) - Mapper( 프로시저 호출 ) 
+	public HashMap<String, Object> PasswordChange(M_PASSWORD_CHANGE model) throws Exception {	
+    	
+		try {
+			  
+			custDao.PasswordChange(model);
+
+			return ResponseDatatoController(Integer.parseInt(model.getRES()), "");
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
 
 }
 

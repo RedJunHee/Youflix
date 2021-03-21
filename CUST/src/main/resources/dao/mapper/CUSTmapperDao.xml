@@ -61,5 +61,15 @@
 			)
 		}
 	</select>
-	
+		<select id="PasswordChange" statementType="CALLABLE"
+		parameterType="com.youflix.cust.model.M_PASSWORD_CHANGE">
+		{
+			CALL USP_CUST_PASSWORD_CHANGE
+			(
+				#{CUST_EMAIL},
+				#{PASSWORD},
+				#{RES, mode=OUT, jdbcType=CHAR}
+			)
+		}
+	</select>
 </mapper>

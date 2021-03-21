@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,13 +18,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.youflix.cust.common.API_ERROR;
 import com.youflix.cust.common.UserCookie;
 import com.youflix.cust.exception.CookieValidationException;
 import com.youflix.cust.model.*;
 import com.youflix.cust.service.CMSService;
 import com.youflix.cust.service.CUSTService;
+import com.youflix.cust.service.LogService;
 import com.youflix.cust.util.DateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +44,8 @@ public class CustController extends ControllerBase {
 	private CUSTService custService;
 	@Inject
 	private CMSService cmsService;
-	
+	@Autowired
+	LogService logService;
 	/**
 	 * @throws Exception 
 	 * @FileName : 테스트 (sign_up)
@@ -527,5 +535,161 @@ public class CustController extends ControllerBase {
 		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
 	}
 	
+	/**
+	 * @FileName : 입수 자동화 유튜버 SubPlayList 동기화 ( ingest_get_sub_play_list )
+	 * @Project : CUST
+	 * @Date : 2021.03.04
+	 * @Author : 조 준 희
+	 * @Description : 입수 자동화 유튜버 SubPlayList 동기화
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/ingest_get_sub_play_list" })
+	public void IngestGetSubPlayList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "입수 자동화 유튜버 SubPlayList 동기화";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		List<ResultMapType2> youtubersPlayList = null;
+		
+		try {
+			youtubersPlayList = cmsService.GetYoutuberPlayList();
+			
+			for(int playListCount = 0 ; playListCount < youtubersPlayList.size(); playListCount++)
+			{
+				 Long sTime = System.currentTimeMillis();
+				String playListId = youtubersPlayList.get(playListCount).get("play_list_id").toString();
+			    JsonArray playListItems = GetPlayListItem(playListId).get("items").getAsJsonArray();
+			    
+			    StringBuffer sb = new StringBuffer();
+			    
+			    sb.append(String.format("유튜버 playList : %s", playListId));
+			    
+			    for(int itemsCount=0 ; itemsCount < playListItems.size(); itemsCount++)
+			    {	    
+			    	Thread.sleep(1000);
+
+		            String videoId = playListItems.get(itemsCount).getAsJsonObject().get("contentDetails").getAsJsonObject().get("videoId").getAsString() ;
+		            
+					cmsService.IngestPlayListVideoRegster(new M_INGEST_SYNC_SUB_PLAY_LIST(playListId, videoId));;
+		            
+			    }
+			    Long eTime = System.currentTimeMillis();
+			    
+	            logService.WriteServiceLog("유튜버 플레이 리스트 비디오 동기화", sTime, eTime, "GetVideoPlayList", DBLogType.OK, sb.toString());
+	            System.out.println(playListId);
+
+			}
+			// Log
+			logResult.append(result);
+			
+		}catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+	}
+
 	
+    private JsonObject GetPlayListItem(String playlistId) throws Exception
+    {
+		String playListRequestURL = 
+		String.format("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=%s&key=AIzaSyCi-S47mjwlbn4pENPMmexzuewKKvAX0_E"
+				,playlistId);//youtubers.get(i).get("CHANNEL_ID").toString());
+		URL url = new URL( playListRequestURL);
+		HttpURLConnection request = (HttpURLConnection)url.openConnection();
+		request.setRequestProperty("Content-Type", "application/json");
+		request.setRequestProperty("Accept-Charset", "UTF-8");
+		
+		request.setConnectTimeout(2000);
+		
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        
+        StringBuffer result = new StringBuffer() ;
+        String jsonData = null;
+        while( (jsonData = br.readLine()) != null )
+        {
+        	result.append(jsonData);
+        }
+         
+        Gson gson = new Gson();
+        
+        JsonObject jo = new JsonObject();
+        
+        jo = gson.fromJson(result.toString(),jo.getClass());
+    	
+        return jo;
+
+    }
+	
+    
+    
+	/**
+	 * @FileName : 비밀번호 변경 ( password_change )
+	 * @Project : CUST
+	 * @Date : 2021.03.21
+	 * @Author : 조 준 희
+	 * @Description : 비밀번호 변경
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/password_change" })
+	public void password_change(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "비밀번호 변경";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		
+		M_PASSWORD_CHANGE model ;
+		
+		try {
+			
+			model  = gson.fromJson( getPostRequestBody(request), M_PASSWORD_CHANGE.class); 
+			
+			resultMap = custService.PasswordChange(model);
+	
+			if (resultMap.get("ResultCode").equals("200")) {
+				result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
+				ResultCode = DBLogType.OK;
+			}
+			else if (resultMap.get("ResultCode").equals("400")) {
+				result = API_ERROR.response_error_toJson(400, "");
+			}
+
+			// Log
+			logResult.append(result);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	}
+    
 }
