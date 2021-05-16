@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.youflix.cust.dao.cms.CMSDao;
 import com.youflix.cust.dao.cust.CUSTDao;
+import com.youflix.cust.model.M_CATEGORY_VIDEO_LIST;
 import com.youflix.cust.model.M_CHECK_CUST_EMAIL_DUPLICATE;
 import com.youflix.cust.model.M_INGEST_SYNC_SUB_PLAY_LIST;
 import com.youflix.cust.model.M_PLAY_VIDEO;
+import com.youflix.cust.model.M_POPULAR_TYPE_LIST;
 import com.youflix.cust.model.M_SESSION_CHECK;
 import com.youflix.cust.model.M_LOG_IN;
 import com.youflix.cust.model.M_SIGN_UP;
@@ -91,6 +93,49 @@ public class CMSService extends BaseService{
 			throw ex;
 		}
 	}
+	
+	
+	/**
+	 * @FileName : 카테고리 비디오박스 리스트 (CategoryVideoList)
+	 * @Project : CMS
+	 * @Date : 2021.03.15
+	 * @Author : 조 준 희
+	 * @Description : 카테고리 비디오박스 리스트
+	 * @History :
+	 */
+	public HashMap<String, Object>  CategoryVideoList(M_CATEGORY_VIDEO_LIST mCategoryVideoList) throws Exception {	
+
+		List<ResultMapType2> result ;
+		try {
+			result = cmsDao.CategoryVideoList(mCategoryVideoList);
+			return ResponseDatatoController(200, result);
+
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}	
+	
+	/**
+	 * @FileName : 유저별 인기있는 비디오타입 리스트 (PopularTypeList)
+	 * @Project : CMS
+	 * @Date : 2021.03.15
+	 * @Author : 조 준 희
+	 * @Description : 유저별 인기있는 비디오타입 리스트
+	 * @History :
+	 */
+	public HashMap<String, Object>  PopularTypeList(M_POPULAR_TYPE_LIST mPopularTypeList) throws Exception {	
+
+		List<ResultMapType2> result ;
+		try {
+			result = cmsDao.PopularTypeList(mPopularTypeList);
+			return ResponseDatatoController(200, result);
+
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}	
 	/**
 	 * @FileName : 로그아웃 (Log_Out)
 	 * @Project : CMS

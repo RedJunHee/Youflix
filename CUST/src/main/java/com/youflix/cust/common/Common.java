@@ -1,16 +1,10 @@
 package com.youflix.cust.common;
 
 import java.util.HashMap;
-import java.util.Properties;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
-import com.ctc.wstx.util.StringUtil;
 
 public class Common {
 

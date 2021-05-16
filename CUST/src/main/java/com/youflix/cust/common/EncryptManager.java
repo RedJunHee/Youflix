@@ -11,8 +11,9 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.InvalidAlgorithmParameterException;
-import org.apache.commons.codec.binary.Base64;
-
+import java.util.Base64;
+import java.util.Base64.Encoder;
+import java.util.Base64.Decoder;
 @Component
 public class EncryptManager {
 
@@ -47,7 +48,7 @@ public class EncryptManager {
         c.init(Cipher.ENCRYPT_MODE, secureKey, new IvParameterSpec(IV.getBytes()));
 
         byte[] encrypted = c.doFinal(str.getBytes("UTF-8"));
-        String enStr = new String(Base64.encodeBase64(encrypted));
+        String enStr = new String(Base64.getEncoder().encodeToString(encrypted));
 
         return enStr;
     }
@@ -61,7 +62,7 @@ public class EncryptManager {
         Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
         c.init(Cipher.DECRYPT_MODE, secureKey, new IvParameterSpec(IV.getBytes("UTF-8")));
 
-        byte[] byteStr = Base64.decodeBase64(str.getBytes());
+        byte[] byteStr = Base64.getDecoder().decode(str.getBytes());
 
         return new String(c.doFinal(byteStr), "UTF-8");
     }

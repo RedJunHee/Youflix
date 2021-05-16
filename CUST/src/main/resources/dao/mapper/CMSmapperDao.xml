@@ -37,4 +37,27 @@
 			)
 		}
 	</select>
+	
+	
+   	<select id="CategoryVideoList" statementType="CALLABLE"
+		parameterType="java.util.Map"
+		resultType="com.youflix.cust.model.ResultMapType2">
+		{
+			CALL USP_CMS_RECOMMEND_EACH_POPULAR_VIDEO
+			(
+				#{VIDEO_TYPE}
+				,#{START}
+			)
+		}
+	</select>
+	   	<select id="PopularTypeList" statementType="CALLABLE"
+		parameterType="java.util.Map"
+		resultType="com.youflix.cust.model.ResultMapType2">
+		{
+			CALL USP_CMS_POPULAR_TYPE_LIST
+			(
+				#{CUST_EMAIL}
+			)
+		}
+	</select>
 </mapper>

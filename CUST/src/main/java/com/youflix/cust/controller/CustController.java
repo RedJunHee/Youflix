@@ -536,6 +536,129 @@ public class CustController extends ControllerBase {
 	}
 	
 	/**
+	 * @FileName : 카테고리 비디오박스 리스트 ( category_video_list )
+	 * @Project : CUST
+	 * @Date : 2021.05.12
+	 * @Author : 조 준 희
+	 * @Description : 카테고리별 비디오 박스 리스트
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/category_video_list" })
+	public void category_video_list(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "카테고리별 비디오 박스 리스트";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		UserCookie cookie = null;
+		M_CATEGORY_VIDEO_LIST mCategoryVideoList;
+		try {
+			cookie = CheckCookie(request, response);
+
+			mCategoryVideoList  = gson.fromJson( getPostRequestBody(request), M_CATEGORY_VIDEO_LIST.class); 
+			
+			resultMap = cmsService.CategoryVideoList(mCategoryVideoList);
+	
+			if (resultMap.get("ResultCode").equals("200")) {
+				List<ResultMapType2> resultDesc = (List<ResultMapType2>)resultMap.get("ResultDesc");
+				result = API_ERROR.response_success_toJson(200, resultDesc, true, true, String.valueOf(resultDesc.size()), false, null);
+				ResultCode = DBLogType.OK;
+			}
+	
+			// Log
+			logResult.append(result);
+			
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	}
+	
+	
+	/**
+	 * @FileName : 유저별 인기 비디오타입 리스트 ( popular_type_list )
+	 * @Project : CUST
+	 * @Date : 2021.05.12
+	 * @Author : 조 준 희
+	 * @Description : 유저별 인기 비디오타입 리스트
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/popular_type_list" })
+	public void popular_type_list(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "유저별 인기 비디오타입 리스트";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		UserCookie cookie = null;
+		M_POPULAR_TYPE_LIST mPopularTypeList;
+		try {
+			cookie = CheckCookie(request, response);
+			
+			mPopularTypeList = new M_POPULAR_TYPE_LIST();
+			mPopularTypeList.setCUST_EMAIL(cookie.getCUST_EMAIL());
+			
+			resultMap = cmsService.PopularTypeList(mPopularTypeList);
+	
+			if (resultMap.get("ResultCode").equals("200")) {
+				List<ResultMapType2> resultDesc = (List<ResultMapType2>)resultMap.get("ResultDesc");
+				result = API_ERROR.response_success_toJson(200, resultDesc, true, true, String.valueOf(resultDesc.size()), false, null);
+				ResultCode = DBLogType.OK;
+			}
+	
+			// Log
+			logResult.append(result);
+			
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	}
+
+	
+	/**
 	 * @FileName : 입수 자동화 유튜버 SubPlayList 동기화 ( ingest_get_sub_play_list )
 	 * @Project : CUST
 	 * @Date : 2021.03.04
@@ -598,7 +721,6 @@ public class CustController extends ControllerBase {
 
 		}
 	}
-
 	
     private JsonObject GetPlayListItem(String playlistId) throws Exception
     {
@@ -631,8 +753,6 @@ public class CustController extends ControllerBase {
 
     }
 	
-    
-    
 	/**
 	 * @FileName : 비밀번호 변경 ( password_change )
 	 * @Project : CUST

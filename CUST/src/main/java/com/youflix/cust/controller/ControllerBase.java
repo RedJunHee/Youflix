@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.youflix.cust.common.Common;
 import com.youflix.cust.common.UserCookie;
 import com.youflix.cust.exception.CookieValidationException;
@@ -43,6 +43,8 @@ public class ControllerBase {
 			put("play_video".trim(), "Y");
 			put("play_end".trim(), "Y");
 			put("log_out".trim(), "Y");
+			put("category_video_list".trim(), "Y");
+			put("popular_type_list".trim(), "Y");
 		}
 		
 	};
