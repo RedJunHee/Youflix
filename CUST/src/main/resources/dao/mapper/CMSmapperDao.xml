@@ -50,7 +50,8 @@
 			)
 		}
 	</select>
-	   	<select id="PopularTypeList" statementType="CALLABLE"
+	
+   	<select id="PopularTypeList" statementType="CALLABLE"
 		parameterType="java.util.Map"
 		resultType="com.youflix.cust.model.ResultMapType2">
 		{
@@ -58,6 +59,22 @@
 			(
 				#{CUST_EMAIL}
 			)
+		}
+	</select>
+	
+   	<select id="VideoKeepWatching" statementType="CALLABLE"
+		parameterType="String"
+		resultType="com.youflix.cust.model.ResultMapType2">
+		{
+			CALL USP_CMS_VIDEO_KEEP_WATCHING
+			(
+				#{CUST_EMAIL}
+			)
+		}
+	</select>
+	<select id="RecommendVideo" statementType="CALLABLE" resultType="com.youflix.cust.model.ResultMapType2">
+		{
+			CALL USP_CMS_RECOMMEND()
 		}
 	</select>
 </mapper>

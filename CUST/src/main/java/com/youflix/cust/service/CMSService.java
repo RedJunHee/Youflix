@@ -136,6 +136,29 @@ public class CMSService extends BaseService{
 			throw ex;
 		}
 	}	
+	
+	/**
+	 * @FileName : 시청중인 비디오 리스트 (PopularTypeList)
+	 * @Project : CMS
+	 * @Date : 2021.05.20
+	 * @Author : 조 준 희
+	 * @Description : 시청중인 비디오 리스트
+	 * @History :
+	 */
+	public HashMap<String, Object>  VideoKeepWatching(String CUST_EMAIL) throws Exception {	
+
+		List<ResultMapType2> result ;
+		try {
+			result = cmsDao.VideoKeepWatching(CUST_EMAIL);
+			return ResponseDatatoController(200, result);
+
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}	
+	
+	
 	/**
 	 * @FileName : 로그아웃 (Log_Out)
 	 * @Project : CMS
@@ -149,6 +172,27 @@ public class CMSService extends BaseService{
 		try {
 			cmsDao.IngestPlayListVideoRegster(item);
 
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+	
+	/**
+	 * @FileName : Youflix 메인 추천 비디오 박스 (RecommendVideo)
+	 * @Project : CMS
+	 * @Date : 2021.05.20
+	 * @Author : 조 준 희
+	 * @Description : Youflix 메인 추천 비디오 박스
+	 * @History :
+	 */
+	public HashMap<String, Object>  RecommendVideo() throws Exception {	
+
+		List<ResultMapType2> result ;
+		try {
+			result = cmsDao.RecommendVideo();
+			return ResponseDatatoController(200, result);
+
+			
 		} catch (Exception ex) {
 			throw ex;
 		}

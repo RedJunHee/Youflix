@@ -46,6 +46,7 @@ public class CustController extends ControllerBase {
 	private CMSService cmsService;
 	@Autowired
 	LogService logService;
+	
 	/**
 	 * @throws Exception 
 	 * @FileName : 테스트 (sign_up)
@@ -594,8 +595,66 @@ public class CustController extends ControllerBase {
 		// -- Response --//
 		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
 	}
+
+
+	/**
+	 * @FileName : Youflix 메인 추천 비디오 박스 ( recommend_video )
+	 * @Project : CUST
+	 * @Date : 2021.05.12
+	 * @Author : 조 준 희
+	 * @Description : Youflix 메인 추천 비디오 박스
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/recommend_video" })
+	public void recommend_video(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "Youflix 메인 추천 비디오 박스";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		UserCookie cookie = null;
+		try {
+			cookie = CheckCookie(request, response);
+
+		
+			resultMap = cmsService.RecommendVideo();
 	
+			if (resultMap.get("ResultCode").equals("200")) {
+				List<ResultMapType2> resultDesc = (List<ResultMapType2>)resultMap.get("ResultDesc");
+				result = API_ERROR.response_success_toJson(200, resultDesc, true, true, String.valueOf(resultDesc.size()), false, null);
+				ResultCode = DBLogType.OK;
+			}
 	
+			// Log
+			logResult.append(result);
+			
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	}
+
 	/**
 	 * @FileName : 유저별 인기 비디오타입 리스트 ( popular_type_list )
 	 * @Project : CUST
@@ -623,6 +682,64 @@ public class CustController extends ControllerBase {
 			mPopularTypeList.setCUST_EMAIL(cookie.getCUST_EMAIL());
 			
 			resultMap = cmsService.PopularTypeList(mPopularTypeList);
+	
+			if (resultMap.get("ResultCode").equals("200")) {
+				List<ResultMapType2> resultDesc = (List<ResultMapType2>)resultMap.get("ResultDesc");
+				result = API_ERROR.response_success_toJson(200, resultDesc, true, true, String.valueOf(resultDesc.size()), false, null);
+				ResultCode = DBLogType.OK;
+			}
+	
+			// Log
+			logResult.append(result);
+			
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	}
+
+	/**
+	 * @FileName : 시청중인 비디오 리스트 ( video_keep_watching )
+	 * @Project : CUST
+	 * @Date : 2021.05.20
+	 * @Author : 조 준 희
+	 * @Description : 시청중인 비디오 리스트
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/video_keep_watching" })
+	public void video_keep_watching(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "시청중인 비디오 리스트";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		UserCookie cookie = null;
+		
+		try {
+			cookie = CheckCookie(request, response);
+			
+			resultMap = cmsService.VideoKeepWatching(cookie.getCUST_EMAIL());
 	
 			if (resultMap.get("ResultCode").equals("200")) {
 				List<ResultMapType2> resultDesc = (List<ResultMapType2>)resultMap.get("ResultDesc");

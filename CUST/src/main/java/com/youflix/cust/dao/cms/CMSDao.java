@@ -19,4 +19,6 @@ public interface CMSDao {
 	public void IngestPlayListVideoRegster(M_INGEST_SYNC_SUB_PLAY_LIST item) throws Exception;
 	public List<ResultMapType2> CategoryVideoList(M_CATEGORY_VIDEO_LIST item) throws Exception;
 	public List<ResultMapType2> PopularTypeList(M_POPULAR_TYPE_LIST item) throws Exception;
+	public List<ResultMapType2> RecommendVideo() throws Exception;
+	public List<ResultMapType2> VideoKeepWatching(String CUST_EMAIL) throws Exception;
 }
