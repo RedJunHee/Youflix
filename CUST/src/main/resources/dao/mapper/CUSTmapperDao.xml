@@ -38,7 +38,27 @@
 			)
 		}
 	</select>
-	
+	<select id="CUST_PURCHASE" statementType="CALLABLE"
+		parameterType="com.youflix.cust.model.M_CUST_PURCHASE">
+		{
+			CALL USP_CUST_PURCHASE
+			(
+				#{CUST_EMAIL},
+				#{MEMBERSHIP_ID},
+				#{RES, mode=OUT, jdbcType=CHAR}
+			)
+		}
+	</select>	
+	<select id="CUST_REFUND" statementType="CALLABLE"
+		parameterType="com.youflix.cust.model.M_CUST_REFUND">
+		{
+			CALL USP_CUST_REFUND
+			(
+				#{CUST_EMAIL},
+				#{RES, mode=OUT, jdbcType=CHAR}
+			)
+		}
+	</select>
 		<select id="Play_End" statementType="CALLABLE"
 		parameterType="com.youflix.cust.model.M_PLAY_END">
 		{

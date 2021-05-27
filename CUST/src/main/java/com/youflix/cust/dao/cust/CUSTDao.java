@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.youflix.cust.model.M_CHECK_CUST_EMAIL_DUPLICATE;
+import com.youflix.cust.model.M_CUST_PURCHASE;
+import com.youflix.cust.model.M_CUST_REFUND;
 import com.youflix.cust.model.M_LOG_OUT;
 import com.youflix.cust.model.M_PASSWORD_CHANGE;
 import com.youflix.cust.model.M_PLAY_END;
@@ -24,4 +26,7 @@ public interface CUSTDao {
 	public void Play_End(M_PLAY_END mPlayEnd) throws Exception;
 	public void Log_Out(M_LOG_OUT mPlayEnd) throws Exception;  
 	public void PasswordChange(M_PASSWORD_CHANGE model) throws Exception; 
+	public void CUST_PURCHASE(M_CUST_PURCHASE model) throws Exception; 
+	public void CUST_REFUND(M_CUST_REFUND model) throws Exception; 
+	
 }

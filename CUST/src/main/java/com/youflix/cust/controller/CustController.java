@@ -596,7 +596,6 @@ public class CustController extends ControllerBase {
 		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
 	}
 
-
 	/**
 	 * @FileName : Youflix 메인 추천 비디오 박스 ( recommend_video )
 	 * @Project : CUST
@@ -716,6 +715,144 @@ public class CustController extends ControllerBase {
 		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
 	}
 
+	/**
+	 * @FileName : 유저 구매 ( cust_purchase )
+	 * @Project : CUST
+	 * @Date : 2021.05.27
+	 * @Author : 조 준 희
+	 * @Description : 유저 구매
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/cust_purchase" })
+	public void cust_purchase(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "유저 구매";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		UserCookie cookie = null;
+		M_CUST_PURCHASE mCustPurchase;
+		try {
+			cookie = CheckCookie(request, response);
+			
+			mCustPurchase  = gson.fromJson( getPostRequestBody(request), M_CUST_PURCHASE.class); 
+			mCustPurchase.setCUST_EMAIL(cookie.getCUST_EMAIL());
+			String temp = null;
+			if( ( temp = mCustPurchase.paramCheck()) != null )
+			{
+				result = API_ERROR.response_error_toJson(400, temp);
+			}
+			else
+			{
+				resultMap = custService.CUST_PURCHASE(mCustPurchase);
+		
+				if (resultMap.get("ResultCode").equals("200")) {
+					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
+					ResultCode = DBLogType.OK;
+				} else if(resultMap.get("ResultCode").equals("400")) {
+					result = API_ERROR.response_error_toJson(401, "구매 실패.");
+				}
+			}
+			// Log
+			logResult.append(result);
+			
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	}
+	
+	
+	/**
+	 * @FileName : 유저 환불 ( popular_type_list )
+	 * @Project : CUST
+	 * @Date : 2021.05.27
+	 * @Author : 조 준 희
+	 * @Description : 유저 환불
+	 * @History :
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = { "/api/cust_refund" })
+	public void cust_refund(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String function_desc = "유저 환불";
+		super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+		HashMap<String, Object> resultMap = null;
+		String result = "";
+		StringBuffer logResult = new StringBuffer();
+		DBLogType ResultCode = DBLogType.FAIL;
+		Gson gson = new Gson();
+		UserCookie cookie = null;
+		M_CUST_REFUND mCustRefund;
+		try {
+			cookie = CheckCookie(request, response);
+			
+			mCustRefund  = gson.fromJson( getPostRequestBody(request), M_CUST_REFUND.class); 
+			mCustRefund.setCUST_EMAIL(cookie.getCUST_EMAIL());
+			
+			String temp = null;
+			if( ( temp = mCustRefund.paramCheck()) != null )
+			{
+				result = API_ERROR.response_error_toJson(400, temp);
+			}
+			else
+			{
+				resultMap = custService.CUST_REFUND(mCustRefund);
+		
+				if (resultMap.get("ResultCode").equals("200")) {
+					result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
+					ResultCode = DBLogType.OK;
+				} else if(resultMap.get("ResultCode").equals("400")) {
+					result = API_ERROR.response_error_toJson(401, "환불 실패.");
+				}
+			}
+			// Log
+			logResult.append(result);
+			
+		} catch( CookieValidationException e){
+			result = API_ERROR.response_error_toJson(401, e.getMessage());
+		} catch (Exception e) {
+			//e.printStackTrace();
+			result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+			// Exception Log String
+			logResult.setLength(0);
+			logResult.append(
+					String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("RESULT=ERROR");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorCode=599");
+			logResult.append(System.getProperty("line.separator"));
+			logResult.append("ErrorMsg=" + result);
+			logResult.append(System.getProperty("line.separator"));
+
+		}
+		
+		// -- Response --//
+		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	}
+	
 	/**
 	 * @FileName : 시청중인 비디오 리스트 ( video_keep_watching )
 	 * @Project : CUST

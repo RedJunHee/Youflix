@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.youflix.cust.dao.cust.CUSTDao;
 import com.youflix.cust.dao.log.LOGDao;
 import com.youflix.cust.model.M_CHECK_CUST_EMAIL_DUPLICATE;
+import com.youflix.cust.model.M_CUST_PURCHASE;
+import com.youflix.cust.model.M_CUST_REFUND;
 import com.youflix.cust.model.M_LOG_OUT;
 import com.youflix.cust.model.M_PASSWORD_CHANGE;
 import com.youflix.cust.model.M_PLAY_END;
@@ -183,6 +185,53 @@ public class CUSTService extends BaseService{
 			throw ex;
 		}
 	}
+	/**
+	 * @FileName : 유저 구매 (cust_purchase)
+	 * @Project : CUST
+	 * @Date : 2021.05.27
+	 * @Author : 조 준 희
+	 * @Description : 유저 구매
+	 * @History :
+	 */
+	public HashMap<String, Object> CUST_PURCHASE(M_CUST_PURCHASE mCustPurchase) throws Exception {	
+
+		
+		try {
+			custDao.CUST_PURCHASE(mCustPurchase);
+
+			if(mCustPurchase.getRES().equals("400"))
+				return ResponseDatatoController(400, "");
+			
+			return ResponseDatatoController(200, "");
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+	
+	/**
+	 * @FileName : 유저 환불 (cust_refund)
+	 * @Project : CUST
+	 * @Date : 2021.05.27
+	 * @Author : 조 준 희
+	 * @Description : 유저 환불
+	 * @History :
+	 */
+	public HashMap<String, Object> CUST_REFUND(M_CUST_REFUND mCustRefund) throws Exception {	
+
+		
+		try {
+			custDao.CUST_REFUND(mCustRefund);
+
+			if(mCustRefund.getRES().equals("400"))
+				return ResponseDatatoController(400, "");
+			
+			return ResponseDatatoController(200, "");
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+	
+	
 	/**
 	 * @FileName : 사용자 비밀번호 변경 ( PasswordChange)
 	 * @Project : CUST
